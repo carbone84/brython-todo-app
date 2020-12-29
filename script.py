@@ -5,7 +5,6 @@ import json, time
 
 # date
 today = datetime.now().strftime('%A, %b %d')
-document["date"].text = today
 
 # progress bar
 progress = document["progress"]
@@ -23,19 +22,20 @@ tolater = document["tolater"]
 def add_item(e):
     timestamp = datetime.now().timestamp()
     task = document["new-item"]
-    delete_button = html.SPAN("&#10008;", Class="delete button", id=f"delete_{timestamp}")
-    done_button = html.SPAN("&#10004;", Class="done button", id=f"done_{timestamp}")
-    later_button = html.SPAN("||", Class="later button", id=f"later_{timestamp}")
-    new_item = html.SPAN(task.value, Class="item", id=f"item_{timestamp}")
-    item_div = html.DIV(new_item + done_button + later_button + delete_button, id=timestamp, Class="task")
-    todo <= item_div
-    storage[str(timestamp)] = json.dumps({'date': timestamp, 'status': 'todo', 'task': task.value, 'div': item_div.innerHTML})
-    task.value = ""
-    document[f"done_{timestamp}"].bind('click', mark_done)
-    document[f"later_{timestamp}"].bind('click', do_later)
-    document[f"delete_{timestamp}"].bind('click', remove_task)
-    update_progress()
-     
+    if task.value:
+        delete_button = html.SPAN("&#10008;", Class="delete button", id=f"delete_{timestamp}")
+        done_button = html.SPAN("&#10004;", Class="done button", id=f"done_{timestamp}")
+        later_button = html.SPAN("||", Class="later button", id=f"later_{timestamp}")
+        new_item = html.SPAN(task.value, Class="item", id=f"item_{timestamp}")
+        item_div = html.DIV(new_item + done_button + later_button + delete_button, id=timestamp, Class="task")
+        todo <= item_div
+        storage[str(timestamp)] = json.dumps({'date': timestamp, 'status': 'todo', 'task': task.value, 'div': item_div.innerHTML})
+        task.value = ""
+        document[f"done_{timestamp}"].bind('click', mark_done)
+        document[f"later_{timestamp}"].bind('click', do_later)
+        document[f"delete_{timestamp}"].bind('click', remove_task)
+        update_progress()
+
 def mark_done(e):
     update_button(e, undo, mark_done, todone)
     update_progress()
@@ -111,4 +111,6 @@ for item in storage:
     elif stored['status'] is 'completed':
         todone <= html.DIV(inner, id=item, Class='task')
 
+update_progress()
 document["submit-btn"].bind('click', add_item)
+document["date"].text = today
