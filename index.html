@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>ToDo</title>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3.8.10/brython.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3.8.10/brython_stdlib.js"></script>
+</head>
+
+<body onload="brython()">
+    <div class="content">
+        <h1 id="date">ToDo</h1>
+        <span>
+            <input type="text" id="new-item" name="new-item" placeholder="Add new item">
+            <input type="submit" id="submit-btn" value="&#10133">
+        </span>
+        <progress id="progress" value="0" max="0"></progress>
+        <div id="lists">
+            <h3 id="todo-head">To Do: <span id="todo-count">0</span></h3>
+            <div class="todo" id="todo"></div>
+            <h3 id="tolater-head">Mayber Later: <span id="tolater-count">0</span></h3>
+            <div class="tolater" id="tolater"></div>
+            <h3 id="todone-head">Completed: <span id="todone-count">0</span></h3>
+            <div class="todone" id="todone"></div>
+        </div>
+    </div>
+    <script type="text/python3" src="./script.py"></script>
+</body>
+
+</html>
