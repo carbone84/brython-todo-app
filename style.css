@@ -28,7 +28,7 @@ h3 {
     background-color: rgb(45, 45, 45);
     min-width: 350px;
     min-height: 75vh;
-    border-radius: 7%/5%;
+    border-radius: 10px;
     padding-bottom: 1rem;
 }
 #new-item {
@@ -41,12 +41,15 @@ h3 {
     height: 34px;
     width: 34px;
     margin-left: -6px;
+    border-radius: 0 5px 5px 0;
 }
 .task {
     display: grid;
     grid-template-columns: 80% repeat(3, 1fr);
     background-color: rgb(65, 65, 65);
+    padding-left: 3px;
     margin-bottom: 3px;
+    border-radius: 5px;
 }
 .button {
     padding-left: .25em;
