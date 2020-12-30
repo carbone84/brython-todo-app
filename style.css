@@ -26,19 +26,27 @@ h3 {
     justify-content: flex-start;
     align-items: center;
     background-color: rgb(45, 45, 45);
-    min-width: 25%;
+    min-width: 350px;
     min-height: 75vh;
     border-radius: 7%/5%;
     padding-bottom: 1rem;
 }
+#new-item {
+    width: 200px;
+    height: 32px;
+    padding-right: 0px;
+}
 #submit-btn {
     background-color: slategray;
-    height: 2.5em;
-    width: 2.5em;
+    height: 34px;
+    width: 34px;
+    margin-left: -6px;
 }
 .task {
     display: grid;
-    grid-template-columns: 95% repeat(3, 1fr);
+    grid-template-columns: 80% repeat(3, 1fr);
+    background-color: rgb(65, 65, 65);
+    margin-bottom: 3px;
 }
 .button {
     padding-left: .25em;
