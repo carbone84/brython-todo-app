@@ -31,32 +31,12 @@ def add_item(e):
         todo <= item_div
         storage[str(timestamp)] = json.dumps({'date': timestamp, 'status': 'todo', 'task': task.value, 'div': item_div.innerHTML})
         task.value = ""
-        document[f"done_{timestamp}"].bind('click', mark_done)
-        document[f"later_{timestamp}"].bind('click', do_later)
-        document[f"delete_{timestamp}"].bind('click', remove_task)
+        document[f"done_{timestamp}"].bind('click', update_button)
+        document[f"later_{timestamp}"].bind('click', update_button)
+        document[f"delete_{timestamp}"].bind('click', update_button)
         update_progress()
 
-def mark_done(e):
-    update_button(e, undo, mark_done, todone)
-    update_progress()
-
-def do_later(e):
-    update_button(e, do_now, do_later, tolater)
-    update_progress()
-
-def undo(e):
-    update_button(e, mark_done, undo, todo)
-    update_progress()
-
-def remove_task(e):
-    update_button(e)
-    update_progress()
-    
-def do_now(e):
-    update_button(e, do_later, do_now, todo)
-    update_progress()
-
-def update_button(event, f_bind = '', f_unbind = '', section = ''):
+def update_button(event):
     button_span = event.target
     button_class = button_span.class_name
     item = button_span.parentElement
@@ -68,6 +48,7 @@ def update_button(event, f_bind = '', f_unbind = '', section = ''):
         stored_item['status'] = 'later'
         stored_item['div'] = item.innerHTML
         storage[str(item.id)] = json.dumps(stored_item)
+        tolater <= item
     elif "done" in button_class:
         for child in item.children:
             if "button" in child.class_name:
@@ -75,12 +56,10 @@ def update_button(event, f_bind = '', f_unbind = '', section = ''):
         stored_item['status'] = 'completed'
         stored_item['div'] = item.innerHTML
         storage[str(item.id)] = json.dumps(stored_item)
+        todone <= item
     elif "delete" in button_class:
         del storage[str(item.id)]
-    if not "delete" in button_class:
-        button_span.bind('click', f_bind)
-        button_span.unbind('click', f_unbind)
-        section <= item
+    update_progress()
     
 def update_progress():
     remaining = todo.childElementCount
@@ -94,23 +73,27 @@ def update_progress():
     if progress.value == progress.max:
         alert("YOU COMPLETED ALL YOUR TASKS! YOU. ARE. AWESOME!")
 
+def enter_submits(e):
+    if e.which is 13:
+        document["submit-btn"].click()
+
 # storage
 for item in storage:
     stored = json.loads(storage[item])
-    print(stored['status'], ': ', stored['task'])
     inner = json.loads(storage[item])['div']
     if stored['status'] is 'todo':
         todo <= html.DIV(inner, id=item, Class='task')
-        document[f"done_{item}"].bind('click', mark_done)
-        document[f"later_{item}"].bind('click', do_later)
-        document[f"delete_{item}"].bind('click', remove_task)
+        document[f"done_{item}"].bind('click', update_button)
+        document[f"later_{item}"].bind('click', update_button)
+        document[f"delete_{item}"].bind('click', update_button)
     elif stored['status'] is 'later':
         tolater <= html.DIV(inner, id=item, Class='task')
-        document[f"done_{item}"].bind('click', mark_done)
-        document[f"delete_{item}"].bind('click', remove_task)
+        document[f"done_{item}"].bind('click', update_button)
+        document[f"delete_{item}"].bind('click', update_button)
     elif stored['status'] is 'completed':
         todone <= html.DIV(inner, id=item, Class='task')
 
 update_progress()
+document["new-item"].bind('keypress', enter_submits)
 document["submit-btn"].bind('click', add_item)
 document["date"].text = today
