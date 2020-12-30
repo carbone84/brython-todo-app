@@ -24,8 +24,8 @@ def add_item(e):
     task = document["new-item"]
     if task.value:
         delete_button = html.SPAN("&#10008;", Class="delete button", id=f"delete_{timestamp}")
-        done_button = html.SPAN("&#10004;", Class="done button", id=f"done_{timestamp}")
-        later_button = html.SPAN("||", Class="later button", id=f"later_{timestamp}")
+        done_button = html.SPAN("&#10004;", Class="todone button", id=f"done_{timestamp}")
+        later_button = html.SPAN("||", Class="tolater button", id=f"later_{timestamp}")
         new_item = html.SPAN(task.value, Class="item", id=f"item_{timestamp}")
         item_div = html.DIV(new_item + done_button + later_button + delete_button, id=timestamp, Class="task")
         todo <= item_div
