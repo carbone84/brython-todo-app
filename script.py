@@ -66,6 +66,12 @@ def update_progress():
     todo_count.text = remaining
     completed = todone.childElementCount
     todone_count.text = completed
+    if completed > 0 and len(document.select(".clear")) == 0:
+        document["lists"] <= html.P("Clear completed", Class="clear center button", id="clear")
+        document["clear"].bind('click', clear_completed)
+    elif completed == 0 and len(document.select(".clear")) == 1:
+        document["lists"].removeChild(document["clear"])
+    
     paused = tolater.childElementCount
     tolater_count.text = paused
     progress.max = remaining + completed
@@ -76,6 +82,14 @@ def update_progress():
 def enter_submits(e):
     if e.which is 13:
         document["submit-btn"].click()
+
+def clear_completed(e):
+    for stored_item in storage:
+        item = json.loads(storage[stored_item])
+        if item['status'] is 'completed':
+            del storage[stored_item]
+            todone.removeChild(document[stored_item])
+    update_progress()
 
 # storage
 for item in storage:
