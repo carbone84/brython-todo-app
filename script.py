@@ -1,7 +1,7 @@
 from browser import alert, document, html
 from browser.local_storage import storage
 from datetime import datetime
-import json, time
+import json
 
 # date
 today = datetime.now().strftime('%A, %b %d')
